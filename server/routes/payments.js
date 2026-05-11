@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import { authMiddleware } from '../middleware/authMiddleware.js';
 import { supabase } from '../lib/supabase.js';
 import { createRazorpayOrder, verifyRazorpaySignature } from '../services/razorpay.js';
+import { generateMeetingAndNotify } from '../services/meetingAndNotify.js';
 
 const router = express.Router();
 
@@ -145,6 +146,10 @@ router.post('/verify', authMiddleware, async (req, res) => {
   if (updateError) {
     return res.status(500).json({ error: updateError.message });
   }
+
+  generateMeetingAndNotify(booking.id).catch((err) =>
+    console.error('generateMeetingAndNotify failed:', err.message),
+  );
 
   return res.json({ booking_id: booking.id, status: 'confirmed' });
 });

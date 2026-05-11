@@ -5,6 +5,10 @@ import authRoutes from './routes/auth.js';
 import listenersRoutes from './routes/listeners.js';
 import bookingsRoutes from './routes/bookings.js';
 import paymentsRoutes from './routes/payments.js';
+import reviewsRoutes from './routes/reviews.js';
+import reportsRoutes from './routes/reports.js';
+import adminRoutes from './routes/admin.js';
+import { startReminderJob } from './services/reminderJob.js';
 
 dotenv.config();
 
@@ -31,6 +35,11 @@ app.use('/api/auth', authRoutes);
 app.use('/api/listeners', listenersRoutes);
 app.use('/api/bookings', bookingsRoutes);
 app.use('/api/payments', paymentsRoutes);
+app.use('/api/reviews', reviewsRoutes);
+app.use('/api/reports', reportsRoutes);
+app.use('/api/admin', adminRoutes);
+
+startReminderJob();
 
 app.use((err, _req, res, _next) => {
   console.error(err);

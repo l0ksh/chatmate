@@ -11,6 +11,7 @@ import ListenerProfile from './pages/ListenerProfile.jsx';
 import BookSlot from './pages/BookSlot.jsx';
 import PaymentPage from './pages/PaymentPage.jsx';
 import BookingConfirmation from './pages/BookingConfirmation.jsx';
+import AdminPanel from './pages/Admin/AdminPanel.jsx';
 
 function App() {
   return (
@@ -39,6 +40,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ListenerDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminPanel />
               </ProtectedRoute>
             }
           />

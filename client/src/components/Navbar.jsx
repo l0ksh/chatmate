@@ -22,7 +22,11 @@ function Navbar() {
           </Link>
           {user ? (
             <>
-              {user.role === 'listener' ? (
+              {user.role === 'admin' ? (
+                <Link className="text-sm text-slate-600 hover:text-slate-900" to="/admin">
+                  Admin Panel
+                </Link>
+              ) : user.role === 'listener' ? (
                 <Link className="text-sm text-slate-600 hover:text-slate-900" to="/dashboard/listener">
                   Listener Dashboard
                 </Link>

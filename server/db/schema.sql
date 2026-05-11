@@ -50,5 +50,27 @@ CREATE TABLE IF NOT EXISTS bookings (
   amount INTEGER NOT NULL,
   platform_fee INTEGER,
   listener_payout INTEGER,
+  reminder_sent BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS reviews (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  booking_id UUID REFERENCES bookings(id),
+  reviewer_id UUID REFERENCES users(id),
+  listener_id UUID REFERENCES users(id),
+  rating INTEGER CHECK (rating BETWEEN 1 AND 5),
+  comment TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(booking_id)
+);
+
+CREATE TABLE IF NOT EXISTS reports (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  reporter_id UUID REFERENCES users(id),
+  reported_user_id UUID REFERENCES users(id),
+  booking_id UUID REFERENCES bookings(id),
+  reason TEXT NOT NULL,
+  status TEXT DEFAULT 'open' CHECK (status IN ('open', 'reviewed', 'resolved')),
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
